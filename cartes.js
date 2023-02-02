@@ -13,6 +13,7 @@ let table = document.querySelector('table')
 let tablebtn = document.getElementById('tablebtn')
 let ModalTableContainer = document.getElementById('modal-container')
 let ModalTableClose = document.getElementById('closeModalTable')
+let ModalTableErase = document.getElementById('eraseTable')
 
 let countPar = 0
 let countInd = 0
@@ -62,7 +63,6 @@ function presentar(val){
 
 //al apretar el boton jugar (presentacion)
 btnjugar.addEventListener('click', () => {
-
     if(btnjugar.innerHTML === 'jugar'){ //empezar
         presentar()
         setTimeout(logica, 1500)
@@ -72,12 +72,14 @@ btnjugar.addEventListener('click', () => {
         presentar('reset')
         reloj()
         setTimeout(logica, 1500)
+        fallos = 0
 
     } else { //siguiente nivel
         resultado.innerHTML = ""
         container.innerHTML = ""
         presentar()
         setTimeout(logica, 1500)
+        fallos = 0
     }
 })
 
@@ -85,8 +87,8 @@ btnjugar.addEventListener('click', () => {
 
 let intento = []
 let intentoAll = []
-let intentoNum = 0
 let puntos = 0
+let fallos = 0
 
 function logica(){
     let cartas = document.querySelectorAll('.flip_card_inner')
@@ -94,7 +96,6 @@ function logica(){
     let secondcard
     let contadorcarta = 0
     let aciertos = 0
-    let fallos = 0
 
     cartas.forEach(flip_card_inner => {
         flip_card_inner.addEventListener('click', () => {
@@ -144,10 +145,9 @@ function logica(){
                     btnjugar.style.top = "10px"
                     btnjugar.innerHTML = "volver a empezar"
                     contadorcarta = 3
-                    intentoNum++
                     reloj('reset')
                     timeout()
-                    LStable()
+                    LStable('nuevoIntento')
                 }
                 //ganas (siguiente nivel)
                 if(aciertos === numparejas){
@@ -163,39 +163,6 @@ function logica(){
                 puntosdisplay.innerHTML = `Puntos: ${puntos}`
                 fallosdisplay.innerHTML = `Fallos: ${fallos} (disponibles: ${Math.round(numparejas * 1.5)})`
             }
-            function LStable(){
-                intento.push(intentoNum)
-                intento.push(puntos)
-                intento.push(fallos)
-                intento.push(pause)
-                intentoAll.push(intento)
-                puntos = 0
-            
-                localStorage.setItem('intentos', JSON.stringify(intentoAll))
-                intento = []
-            
-                let intentoLS = JSON.parse(localStorage.getItem('intentos'))
-                table.innerHTML = 
-                `
-                <tr>
-                    <td>Intento nº</td>
-                    <td>Aciertos</td>
-                    <td>Fallos</td>
-                    <td>Tiempo</td>
-                </tr>
-                `
-                intentoLS.forEach(intent => {
-                    table.innerHTML +=
-                    `
-                    <tr>
-                        <td>${intent[0]}</td>
-                        <td>${intent[1]}</td>
-                        <td>${intent[2]}</td>
-                        <td>${intent[3]}</td>
-                    </tr>
-                    `
-                })
-            }
             function timeout(){
                 if(fallos === Math.round(numparejas * 1.5)){
                     cartas.forEach(flip_card_inner => {flip_card_inner.style.transform = 'rotateY(180deg)'})
@@ -206,6 +173,56 @@ function logica(){
                 }
             }
         }) // <- final click carta
+    })
+}
+let numIntento = 0
+let numSesion = 0
+let intentosLS = JSON.parse(localStorage.getItem('intentos'))
+function LStable(val){
+    if(intentosLS !== "" && intentosLS !== null){
+        intentosLS.forEach(intentoLS => {
+            intentoAll.push(intentoLS)
+            numSesion = intentoLS[0] + 1
+        })
+        intentosLS = ""
+        console.log(numSesion)
+    }
+    if(val === 'nuevoIntento'){
+        intento.push(numSesion)
+        intento.push(numIntento)
+        intento.push(puntos)
+        intento.push(fallos)
+        intento.push(pause)
+
+        intentoAll.push(intento)
+        puntos = 0
+        numIntento++
+
+        
+        localStorage.setItem('intentos', JSON.stringify(intentoAll))
+        intento = []
+    }
+    table.innerHTML =
+    `
+    <tr>
+        <td>Sesión nº</td>
+        <td>Intento nº</td>
+        <td>Aciertos</td>
+        <td>Fallos</td>
+        <td>Tiempo</td>
+    </tr>
+    `
+    intentoAll.forEach(intent => {
+        table.innerHTML +=
+        `
+        <tr>
+            <td>${intent[0]}</td>
+            <td>${intent[1]}</td>
+            <td>${intent[2]}</td>
+            <td>${intent[3]}</td>
+            <td>${intent[4]}</td>
+        </tr>
+        `
     })
 }
 
@@ -251,6 +268,7 @@ function reloj(val){
 
 tablebtn.addEventListener('click', () => {
     ModalTableContainer.style.display = 'block'
+    LStable()
 })
 
 ModalTableClose.addEventListener('click', () => {
@@ -260,6 +278,10 @@ window.addEventListener('click', (e) => {
     if(e.target == ModalTableContainer){
         ModalTableContainer.style.display = 'none'
     }
+})
+ModalTableErase.addEventListener('click', () => {
+    localStorage.clear()
+    table.innerHTML = "jijijija"
 })
 
 /* cambio */
