@@ -7,14 +7,13 @@ let table = document.querySelector('table')
 btnjgar.addEventListener('click', () => {
     generarLvl()
     hud()
-    logica()
+    puntuacion()
 })
 let filas = 20
 let columnas = 20
 let dificultad = (filas * columnas) / 100 * 25
 let lvl = []
 let lvl2= []
-let coords = []
 let count = 0
 
 
@@ -29,19 +28,14 @@ function generarLvl(){
     for(let i = 0; i < columnas * filas - dificultad; i++){
         lvl.push(0)
     }
-    for(let i = 0; i < columnas * filas; i++){
+    lvl.sort(() => Math.random() - .5) // -> desordenarlas
+    lvl.forEach(val => { // -> añadir coords
         if(filacount == filas){
             colcount++
             filacount = 0
         }
         filacount++
-        coords.push([filacount, colcount])
-
-    }
-    console.log(coords)
-    lvl.sort(() => Math.random() - .5) // -> desordenarlas
-    lvl.forEach(val => { // -> añadir coords
-        lvl2.push([count, val])
+        lvl2.push([count, val, filacount, colcount])
         count++
     })
     lvl = []
@@ -56,12 +50,11 @@ function generarLvl(){
             content += '</tr>'
             contador = 0
         }
-        content += `<td class="${casilla[1]}" id="${casilla[0]}">${coords[casilla[0]]}</td>`
-       /*if(casilla[1] == 1){
-
+        if(casilla[1] == 1){ 
+            content += `<td class="mina${casilla[1]}" id="${casilla[0]}">1</td>`
         }else {
-            content += `<td class="${casilla[1]}" id="${casilla[0]}"></td>`
-        }*/
+            content += `<td class="mina${casilla[1]}" id="${casilla[0]}"></td>`
+        }
         contador++
     })
     table.innerHTML = content
@@ -70,25 +63,21 @@ function generarLvl(){
 function hud(){  
 }
 
-function logica(){
+function puntuacion(){
     document.oncontextmenu = new Function('return false')
 
 
     let casillaElement = document.querySelectorAll('td')
     casillaElement.forEach(casilla => {
         casilla.addEventListener('contextmenu', () => { // right click a una casilla
-             if(casilla.innerHTML === ""){
-                 casilla.innerHTML = '<img src="bandera.jpg">'
+            if(casilla.innerHTML === ""){
+                casilla.innerHTML = '<img src="bandera.jpg">'
             } else if(casilla.innerHTML === '<img src="bandera.jpg">'){
                 casilla.innerHTML = ""
                 console.log(casilla)
             }
         })
         casilla.addEventListener('click', () => { // -> click a una casilla
-            if(casilla.innerHTML == coords[casilla.id]){
-                console.log("hh")
-            }
-
 
 
             if(casilla.classList.contains('mina1')){ // -> click a una mina (mostramos todas las minas)
@@ -99,10 +88,31 @@ function logica(){
                 })
             } else { // click a no mina
                 casilla.style.backgroundColor = "rgb(200, 200, 200)"
+                despejar(lvl2[casilla.id][2], lvl2[casilla.id][3])
             }
         })
         if(casilla.classList.contains('mina1')){
             casilla.innerHTML = 1 
         }
     })
+}
+function despejar(col,fil){
+    //console.log(lvl2[find_id(col,fil)])
+    //console.log("fila:")
+    for(let f = -1; f <= 1; f++){
+        //console.log(fil + f)'
+        for(let c = -1; c <= 1; c++){
+            console.log(lvl2[find_id(col,fil)][2])
+            //console.log("columna")
+            //console.log(col + c)
+        }
+    }
+}
+//c
+function find_id(val2, val3){
+    for(let i = 0; i < lvl2.length; i++){
+        if(lvl2[i][2] == val2 && lvl2[i][3] == val3){
+            return i
+        }
+    }
 }
