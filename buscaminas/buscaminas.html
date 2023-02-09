@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>buscaminas</title>
     <style>
+      
+  
       body{
         background-color: gray;
       }
@@ -11,10 +13,21 @@
         width: 50%;
         margin: auto;
       }
+      #container-hud{
+        display: flex;
+        width: 50%;
+
+      }
       table tr td{
         background-color: white;
         font-size: 20px;
-        padding: 5px;
+        text-align: center;
+        width: 30px;
+        height: 30px;
+      }
+      table tr td img{
+        width: 25px;
+        height: 25px;
       }
     </style>
   </head>
@@ -23,14 +36,19 @@
 
     <div id="container-menu">
       <p>tabla:</p>
-      <input type="text" id="filas" placeholder="filas">
+      <input type="number" id="filas" placeholder="filas" on >
       <input type="text" id="columnas" placeholder="columnas">
       <div>
         <button id="jugar">jugar</button>
       </div>
     </div>
-
-    <table></table>
+    <div>
+      <div id="container-hud">
+        <p>h</p>
+        <p>h</p>
+      </div>
+      <table></table>
+    </div>
     <script src="buscaminas.js"></script>
   </body>
 </html>
