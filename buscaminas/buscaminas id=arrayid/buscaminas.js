@@ -51,9 +51,9 @@ function generarLvl(){
             contador = 0
         }
         if(casilla[1] == 1){ 
-            content += `<td class="mina${casilla[1]} id${casilla[0]}" id="${casilla[2]}-${casilla[3]}">1</td>`
+            content += `<td class="mina${casilla[1]}" id="${casilla[0]}">1</td>`
         }else {
-            content += `<td class="mina${casilla[1]} id${casilla[0]}" id="${casilla[2]}-${casilla[3]}"></td>`
+            content += `<td class="mina${casilla[1]}" id="${casilla[0]}"></td>`
         }
         contador++
     })
@@ -88,7 +88,7 @@ function puntuacion(){
                 })
             } else { // click a no mina
                 casilla.style.backgroundColor = "rgb(200, 200, 200)"
-                despejar(casilla.id)
+                despejar(lvl2[casilla.id][2], lvl2[casilla.id][3])
             }
         })
         if(casilla.classList.contains('mina1')){
@@ -96,22 +96,22 @@ function puntuacion(){
         }
     })
 }
-function despejar(coords){
-    //console.log(find_id(coords))
+function despejar(col,fil){
+    //console.log(lvl2[find_id(col,fil)])
     //console.log("fila:")
     for(let f = -1; f <= 1; f++){
-        console.log(coords + f)
-        console.log()
+        //console.log(fil + f)'
         for(let c = -1; c <= 1; c++){
-            //console.log(lvl2[find_id(col,fil)][2])
+            console.log(lvl2[find_id(col,fil)][2])
             //console.log("columna")
             //console.log(col + c)
         }
     }
 }
-function find_id(val){
+//c
+function find_id(val2, val3){
     for(let i = 0; i < lvl2.length; i++){
-        if(`${lvl2[i][2]}-${lvl2[i][3]}` === val){
+        if(lvl2[i][2] == val2 && lvl2[i][3] == val3){
             return i
         }
     }
