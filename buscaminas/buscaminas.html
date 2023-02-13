@@ -4,50 +4,66 @@
     <meta charset="utf-8">
     <title>buscaminas</title>
     <style>
-      
-  
-      body{
-        background-color: gray;
-      }
-      #container-menu{
-        width: 50%;
-        margin: auto;
-      }
-      #container-hud{
-        display: flex;
-        width: 50%;
-
-      }
-      table tr td{
-        background-color: white;
-        font-size: 20px;
-        text-align: center;
-        width: 30px;
-        height: 30px;
-      }
-      table tr td img{
-        width: 25px;
-        height: 25px;
-      }
+        body{
+            background-color: gray;
+        }
+        #container_menu{
+            width: 50%;
+            margin: auto;
+            background-color: rgba(200, 200, 200, .5);
+            border-radius: 10px;
+            font-size: 20px;
+        }
+        #container_menu > div {
+            display: flex;
+            justify-content: center;
+        }
+        #container_menu > div > div {
+            margin: 10px;
+        }
+        #container_hud{
+            display: flex;
+            width: 50%;
+        }
+        table tr td{
+            background-color: white;
+            font-size: 20px;
+            text-align: center;
+            width: 30px;
+            height: 30px;
+        }
+        table tr td img{
+            width: 25px;
+            height: 25px;
+        }
     </style>
   </head>
   <body>
+    <h1 id="rangeval"></h1>
     <h1>si</h1>
-
-    <div id="container-menu">
-      <p>tabla:</p>
-      <input type="number" id="filas" placeholder="filas" on >
-      <input type="text" id="columnas" placeholder="columnas">
-      <div>
-        <button id="jugar">jugar</button>
-      </div>
+    <div id="container_menu">
+        <div>
+            <div>
+                <label for="filas" id="filasLB">filas:</label>
+                <input type="range" id="filas" max="20" min="2">
+            </div>
+            <div>
+                <label for="columnas" id="columnasLB"></label>
+                <input type="range" id="columnas" max="20" min="2">
+            </div>
+            <div>
+                <lable for="dificultad" id="dificultadLB"></lable>
+                <input type="range" id="dificultad" max="50" min="10">
+            </div>
+        </div>
+        <div>
+            <button id="jugar">jugar</button>
+        </div>
     </div>
     <div>
-      <div id="container-hud">
-        <p>h</p>
-        <p>h</p>
-      </div>
-      <table></table>
+        <div id="container_hud">
+        </div>
+        <table id="table"></table>
     </div>
     <script src="buscaminas.js"></script>
   </body>

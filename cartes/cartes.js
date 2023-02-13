@@ -1,25 +1,13 @@
-let container = document.getElementById('container')
 let btnjugar = document.getElementById('jugar')
-let resultado = document.getElementById('resultado')
 let fallosdisplay = document.getElementById('errores')
 let puntosdisplay = document.getElementById('puntos')
 
-let c = console.log
-//localStorage.clear()
-
-let tiempo = document.getElementById('tiempo')
-
 let table = document.querySelector('table')
-let tablebtn = document.getElementById('tablebtn')
-let ModalTableContainer = document.getElementById('modal-container')
-let ModalTableClose = document.getElementById('closeModalTable')
-let ModalTableErase = document.getElementById('eraseTable')
 
 let countPar = 0
 let countInd = 0
 let numparejas = 1
 let order = []
-
 
 function presentar(val){
     if(val === 'reset'){
@@ -267,19 +255,19 @@ function reloj(val){
 }
 
 tablebtn.addEventListener('click', () => {
-    ModalTableContainer.style.display = 'block'
+    modal_container.style.display = 'block'
     LStable()
 })
 
-ModalTableClose.addEventListener('click', () => {
-    ModalTableContainer.style.display = 'none'
+closeModalTable.addEventListener('click', () => {
+    modal_container.style.display = 'none'
 })
 window.addEventListener('click', (e) => {
-    if(e.target == ModalTableContainer){
-        ModalTableContainer.style.display = 'none'
+    if(e.target == modal_container){
+        modal_container.style.display = 'none'
     }
 })
-ModalTableErase.addEventListener('click', () => {
+eraseTable.addEventListener('click', () => {
     localStorage.clear()
     table.innerHTML = "jijijija"
 })
