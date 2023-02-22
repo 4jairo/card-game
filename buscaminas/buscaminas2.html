@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>documeme</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: gray;
+        }
+        #container_table{
+            width: fit-content;
+            margin: 50px auto;
+            display: none;
+        }
+        #hud{
+            width: 100%;
+            background-color: rgba(200, 200, 200, 0.6);
+            display: flex;
+            justify-content: space-around;
+        }
+        table tr td {
+            width: 25px;
+            height: 25px;
+            background-color: #fff;
+            text-align: center;
+            font-weight: 800;
+            user-select: none;
+        }
+        table tr td:nth-child(odd){
+            background-color: rgba(82, 160, 30, 0.315)
+        }
+        table tr td:nth-child(even){
+            background-color: rgba(128, 253, 45, 0.315)
+        } 
+        #container_menu{
+            width: 70%;
+            margin: auto;
+            background-color: rgba(200, 200, 200, .5);
+            border-radius: 10px;
+            transition: all .4s;
+        }
+        #container_menu > div {
+            display: flex;
+            justify-content: center;
+        }
+        #container_menu > div > div {
+            margin: 10px;
+        }
+        /*colres numeros*/
+        .a1::before{
+            content: "1";
+            color: blue;
+        }
+        .a2::before{
+            content: "2";
+            color: rgb(60, 105, 0);
+        }
+        .a3::before{
+            content: "3";
+            color: red;
+        }
+        .a4::before{
+            content: "4";
+            color: darkblue;
+        }
+        .a5::before{
+            content: "5";
+            color: rgb(255, 174, 0);
+        }
+        .a6::before{
+            content: "6";
+            color: lightseagreen;
+        }
+        .a7::before{
+            content: "7";
+            color: rgb(34, 14, 0);
+        }
+        .a8::before{
+            content: "8";
+            color: black;
+        }
+        /* oculta, visible */
+        .visible{
+            background-color: rgb(200, 200, 200) !important;
+        }
+        /* .oculta::before{
+            content: "" !important;
+        } */
+    </style>
+</head>
+<body>
+    <div id="container_menu">
+        <div>
+            <div>
+                <label for="fila" id="filasLB">filas:</label>
+                <input type="range" id="fila" max="20" min="4">
+            </div>
+            <div>
+                <label for="columna" id="columnasLB"></label>
+                <input type="range" id="columna" max="20" min="4">
+            </div>
+            <div>
+                <lable for="dificultad" id="dificultadLB"></lable>
+                <input type="range" id="dificultad" max="50" min="10">
+            </div>
+        </div>
+        <div>
+            <button id="jugar">jugar</button>
+        </div>
+    </div>
+    <div id="container_table">
+        <div id="hud">
+            <p id="minas_restantes"></p>
+        </div>
+        <table id="tablero"></table>
+    </div>
+    <script src="buscaminas2.js"></script>
+</body>
+</html>

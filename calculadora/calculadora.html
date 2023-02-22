@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        border: 0;
+        font-size: 20px;
+        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+    }
+    body{
+        background-color: rgb(30, 30, 30);
+    }
+    .container{
+        width: 30%;
+        margin: 0 35%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(100, 100, 100, 0.5);
+        padding: 5px;
+    }
+    .container>div{
+        width: 100%;
+    }
+    .container .number input{
+        width: 30%;
+        margin: 5px auto;
+    }
+    .container .op input{
+        width: 15%;
+        margin: 5px auto;
+        background-color: gray;
+    }
+    .container .display{
+        width: 95%;
+        margin: 10px auto;
+        background-color: white;
+        text-align: right;
+        border: 1px solid black;
+
+    }
+    .container .display:hover > input, .container .display:hover > #last_op{
+        background-color: rgb(214, 214, 214);
+    }
+    .container .display input{
+        width: 100%;
+        padding: 0 2.5%;
+        font-size: 1.2em;
+        border-style: none;
+        outline: none;
+        text-align: right;
+        left: 0;
+        bottom: 0;
+        height: 100%;
+    }
+    .container .borrar input{
+        padding: 5px;
+    }
+
+</style>
+<body>
+    <div class="container">
+        <div class="display">
+            <p id="last_op"></p>
+            <input id="result" type="text" value="">
+        </div>
+        <div class="borrar">
+            <input type="button" value="&larr;" onclick="menos()">
+            <input type="button" value="CE" onclick="borrar()">
+    
+        </div>
+        <div class="number">
+            <input type="button" value="1" onclick="display('1')">
+            <input type="button" value="2" onclick="display('2')">
+            <input type="button" value="3" onclick="display('3')">
+            <input type="button" value="4" onclick="display('4')">
+            <input type="button" value="5" onclick="display('5')">
+            <input type="button" value="6" onclick="display('6')">
+            <input type="button" value="7" onclick="display('7')">
+            <input type="button" value="8" onclick="display('8')">
+            <input type="button" value="9" onclick="display('9')">
+            <input type="button" value="0" onclick="display('0')">
+        </div>
+        <div class="op">
+            <input type="button" value="*" onclick="display('*')">
+            <input type="button" value="/" onclick="display('/')">
+            <input type="button" value="+" onclick="display('+')">
+            <input type="button" value="-" onclick="display('-')">
+            <input type="button" value="." onclick="display('.')">
+            <input type="button" value="(" onclick="display('&#40')">
+            <input type="button" value=")" onclick="display('&#41')">
+            <input type="button" value="=" onclick="calcular('igual')">
+            <input type="button" value="ANS" onclick="calcular('ans')">
+        </div>
+    </div>
+    <script>
+        let result = document.getElementById('result')
+        let last_op = document.getElementById('last_op')
+        result.value = ""
+        
+        function display(val){
+            result.value += val
+        }
+        function menos(){
+            result.value = result.value.slice(0, -1)
+        }
+
+        function borrar(){
+            result.value = ""
+        }
+
+        function calcular(val){
+            let totalAns = eval(result.value)
+
+            if (val === 'igual'){
+                result.value = totalAns
+                
+                last_op.innerHTML = "ANS = " + totalAns
+                result.value = ""
+            }
+            if (val === 'ans'){
+                console.log(last_op)
+                result.value += totalAns;
+            }
+        }
+    
+
+    </script>
+</body>
+</html>

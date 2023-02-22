@@ -1,3 +1,7 @@
+/*
+la tabla recopila uns valors determinats de els intentos y els guarda en el localstorage del navegador (function ln 170)
+*/
+
 let btnjugar = document.getElementById('jugar')
 let fallosdisplay = document.getElementById('errores')
 let puntosdisplay = document.getElementById('puntos')
@@ -271,5 +275,3 @@ eraseTable.addEventListener('click', () => {
     localStorage.clear()
     table.innerHTML = "jijijija"
 })
-
-/* cambio */
