@@ -76,7 +76,7 @@ function random(){
 let lvlOrder = []
 let lvl = 0
 function jugar(){
-    btn_container.style.marginTop = '0'
+    btn_container.style.display = 'none'
     
     if(lvl === 0){
         for(let i = 0; i < 4; i++){
@@ -127,14 +127,14 @@ function compare(kill){
                     count++
                     if(count == lvlOrder.length){
                         btnjugar.innerHTML = 'siguiente lvl'
-                        btn_container.style.marginTop = '200px'
+                        btn_container.style.display = 'block'
 
                         //reiniciar variables
                         count = 'si' // -> compare() = no funciona
                     }
                 } else {
                     btnjugar.innerHTML = 'volver a jugar'
-                    btn_container.style.marginTop = '200px'
+                    btn_container.style.display = 'block'
 
                     //reiniciar variables
                     isGameOn = false
@@ -144,6 +144,5 @@ function compare(kill){
                 }
             }
         }
-
     })
 }
