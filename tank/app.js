@@ -1,4 +1,4 @@
-// player objects
+//----players
 function Player(forward, backward, left, right, shoot, position, health){
     this.keyb = {
         forward: forward,
@@ -14,7 +14,7 @@ let p1 = new Player('KeyW','KeyS','KeyA','KeyD','Space',[100, 100], 100)
 let p2 = new Player('ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyP',[50, 100], 100)
 let gameStatus = false
 
-//hud & settings menu
+//----hud & settings menu
 
 // modal container
 window.addEventListener('click', (e) => {
@@ -23,13 +23,14 @@ window.addEventListener('click', (e) => {
     }
 })
 
-//keybinds
+//----keybinds
 settings.addEventListener('click', () => {
     modalContainer.style.display = 'block'
     keyBinds(p1)
     keyBinds(p2)
 })
 
+//change keys
 let inUseKeys = []
 let lastChangeKey
 function keyBinds(player){
@@ -56,7 +57,6 @@ function keyBinds(player){
 function changeKey(player, action){
     // select the element above the clicked btn
     let keyElement = document.getElementById(`${player}_${action}`)
-    console.log(keyElement)
     keyElement.style.backgroundColor = 'green'
 
     // if player does not type any key => ignore
@@ -81,39 +81,50 @@ function changeKey(player, action){
             inUseKeys.push(e.code)
             player.keyb[action] = e.code
         }
-
         keyElement.style.backgroundColor = 'white'
         keyBinds(player)
         document.onkeydown = null        
     }
 }
 
-// maps
+//----maps
+let choosenMap
 let mapOptions = document.querySelectorAll('.maps')
 mapOptions.forEach(mapOpt => {
     mapOpt.addEventListener('click', () => {
-        if(mapOpt.id == 'map1'){
-
-            //play btn
-            play.style.display = 'block'
-
-            // players
-            player1.style.display = 'block'
-            player2.style.display = 'block'
-            p1.position = [map.offsetHeight - 100 , 100]
-            p2.position = [map.offsetHeight - 100, map.offsetWidth - 100]
-        }
+        choosenMap = mapOpt.id
+        maps(choosenMap)
         modalContainer.style.display = 'none'
     })
 })
 
+function maps(mapId){
+    switch(mapId){
+        case 'map1':
+            p1.position = [map.offsetHeight - 100 , 100]
+            p2.position = [map.offsetHeight - 100, map.offsetWidth - 100]
+            break
+        case 'map2':
+            p1.position = [map.offsetHeight - 350, 100]
+            p2.position = [map.offsetHeight - 350, map.offsetWidth - 100]
+            break
+    }
+    player1.style.display = 'block'
+    player2.style.display = 'block'
+    updatePlayerPos()
+}
+
+//time
 let seconds = 60
 let minutes = 1
 let time
 let timeout = false // if(timeout) => player with most health wins
 play.addEventListener('click', () => {
     console.log("click")
-    
+    if(!choosenMap){
+        choosenMap = 'map1'
+    }
+
     restartValues()
     play.style.display = 'none'
     play.innerHTML = 'play again'
@@ -129,14 +140,14 @@ play.addEventListener('click', () => {
             updateHealth(p1, "")
             clearInterval(time)
         }
-    }, 100)
+    }, 1000)
 })
 
-//movement
-const damage = 10
+//----movement
+const damage = 10 //health: 100
 const playerSpeed = 1
 const bulletSpeed = 3
-const bulletRatio = 200 // max time between bullets
+const bulletRatio = 200 // max time (in ms) between bullets
 
 document.addEventListener('keydown', (e) => {
     updateDirection(p1, e.code, 'down')
@@ -168,16 +179,16 @@ let lastBulletp2 = 0
 let bulletBurstp2 = 0
 
 function bulletDelay(player){
-    let time = new Date().getTime()
+    let time = performance.now()
     if(player.shoot == p1.shoot){
         if(time - lastBulletp1 >= bulletRatio){
             bulletBurstp1++
             shoot(player)
+            if(lastBulletp1 >= time + 1000){
+                bulletBurstp1 = 0
+            }
             if(bulletBurstp1 == 7){
                 lastBulletp1 = time + 1000
-                if(lastBulletp1 == time + 1000){
-
-                }
                 bulletBurstp1 = 0
             } else {
                 lastBulletp1 = time
@@ -190,7 +201,7 @@ function bulletDelay(player){
 
             if(bulletBurstp2 == 7){
                 lastBulletp2 = time + 1000
-                bulletBurstp1 = 0
+                bulletBurstp2 = 0
             } else {
                 lastBulletp2 = time
             }
@@ -228,7 +239,7 @@ function updateKeys(player){
     })
 }
 
-//generate bullets
+//summon bullets
 let bulletsOnboard = []
 let bulletsHitted = []
 let bulletCount = 0
@@ -291,7 +302,7 @@ function bullets(){
         }
 
         function hitbox(pl, plEl){
-            return b.getAttribute('left') <= pl.position[1] + plEl.offsetWidth && 
+            return b.getAttribute('left') <= pl.position[1] + plEl.offsetWidth &&
             b.getAttribute('left') >= pl.position[1] &&
             b.getAttribute('top') <= pl.position[0] + plEl.offsetHeight && 
             b.getAttribute('top') >= pl.position[0]
@@ -358,7 +369,8 @@ function updateHealth(player, hit){
 }
 
 function restartValues(){
-    gameStatus = true
+    maps(choosenMap)
+    bulletsOnboard = []
     
     p1.health = 100
     p2.health = 100
@@ -370,13 +382,12 @@ function restartValues(){
     minutes = 1
     timeout = false
     
-    bulletCount = 0
-    
     lastBulletp1 = 0
     bulletBurstp1 = 0
     lastBulletp2 = 0
     bulletBurstp2 = 0
-    //console.log(bulletBurstp1, lastBulletp1, bulletBurstp2, lastBulletp2, bulletCount, minutes, seconds, timeDisplay.innerHTML)
+
+    gameStatus = true
 }
 
 function update(){
