@@ -180,7 +180,7 @@ let bulletBurstp2 = 0
 
 function bulletDelay(player){
     let time = performance.now()
-    if(player.shoot == p1.shoot){
+    if(player.keyb.shoot == p1.keyb.shoot){
         if(time - lastBulletp1 >= bulletRatio){
             bulletBurstp1++
             shoot(player)
