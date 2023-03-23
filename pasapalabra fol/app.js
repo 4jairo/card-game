@@ -18,7 +18,7 @@ let alfabet = [
     ['m','(contiene la m) Manera para que los mayores de 16 hagan legalmente papel de adulto antes de cumplir 18','emancipación','emancipar'],
     ['n','Discusión de los términos y condiciones a la hora de contrato','negociación','negociar'],
     ['o','Deberes del trabajador','obligaciones','obligación'],
-    ['p','(contiene la p) Tipo de trabajo para la obtención de experiencia','prácticas','práctica'],
+    ['p','Tipo de trabajo para la obtención de experiencia','prácticas','práctica'],
     ['q','pago de salario cada 15 días','quincena'],
     ['r','sinónimo de sueldo, retribución, premio','remuneración'],
     ['s','entrega de bienes sin la obligación de un reembolso','subvención'],
@@ -60,7 +60,7 @@ respuesta.addEventListener('keypress', (e) => {
 
 function comparar(){
     letterElement = document.querySelectorAll('.letter')
-    start.innerHTML = 'comprovar'
+    start.innerHTML = 'comprobar'
     
     function nextLetter(){
         letterElement[currentLetter].classList.add('noResponse') 
